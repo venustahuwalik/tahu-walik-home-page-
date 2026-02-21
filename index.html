@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tahu Walik - Login</title>
+    <style>
+      :root {
+        --bg: #000;
+        --fg: #fff;
+        --border: #fff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: Arial, Helvetica, sans-serif;
+        display: grid;
+        place-items: center;
+      }
+
+      .card {
+        width: min(92vw, 420px);
+        border: 2px solid var(--border);
+        border-radius: 14px;
+        padding: 24px;
+        background: #050505;
+        box-shadow: 0 0 0 1px #1f1f1f;
+      }
+
+      .logo-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .logo-bowl {
+        width: 94px;
+        height: 62px;
+        border: 3px solid #fff;
+        border-top: none;
+        border-bottom-left-radius: 52px;
+        border-bottom-right-radius: 52px;
+        position: relative;
+        margin-top: 10px;
+      }
+
+      .logo-bowl::before,
+      .logo-bowl::after {
+        content: "";
+        position: absolute;
+        top: -16px;
+        width: 34px;
+        height: 16px;
+        border-top: 3px solid #fff;
+        border-left: 3px solid transparent;
+        border-right: 3px solid transparent;
+        border-radius: 50%;
+      }
+
+      .logo-bowl::before {
+        left: 6px;
+      }
+
+      .logo-bowl::after {
+        right: 6px;
+      }
+
+      h1,
+      h2 {
+        margin: 0 0 6px;
+        text-align: center;
+        letter-spacing: 0.5px;
+      }
+
+      p.sub {
+        margin: 0 0 16px;
+        text-align: center;
+        color: #d7d7d7;
+        font-size: 14px;
+      }
+
+      .field {
+        display: grid;
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+
+      label {
+        font-size: 14px;
+      }
+
+      input {
+        padding: 10px 12px;
+        border: 1px solid #fff;
+        border-radius: 8px;
+        background: #000;
+        color: #fff;
+        outline: none;
+      }
+
+      input:focus {
+        box-shadow: 0 0 0 2px #fff3;
+      }
+
+      button {
+        width: 100%;
+        margin-top: 8px;
+        border: 1px solid #fff;
+        border-radius: 8px;
+        padding: 10px;
+        background: #fff;
+        color: #000;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #ddd;
+      }
+
+      #message {
+        min-height: 20px;
+        color: #fff;
+        font-size: 13px;
+        margin-top: 8px;
+        text-align: center;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .home p {
+        text-align: center;
+        color: #d7d7d7;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <section id="login-view">
+        <div class="logo-wrap">
+          <h1>Tahu Walik</h1>
+          <div class="logo-bowl" aria-label="logo mangkok mie"></div>
+        </div>
+
+        <p class="sub">Masuk menggunakan username dan password</p>
+
+        <form id="login-form">
+          <div class="field">
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" placeholder="Masukkan username" required />
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="Masukkan password" required />
+          </div>
+
+          <button type="submit">Masuk</button>
+          <div id="message" role="status" aria-live="polite"></div>
+        </form>
+      </section>
+
+      <section id="home-view" class="home hidden">
+        <h2>Home Page</h2>
+        <p id="welcome-text"></p>
+        <button id="logout">Keluar</button>
+      </section>
+    </main>
+
+    <script>
+      const loginView = document.getElementById("login-view");
+      const homeView = document.getElementById("home-view");
+      const loginForm = document.getElementById("login-form");
+      const usernameInput = document.getElementById("username");
+      const passwordInput = document.getElementById("password");
+      const message = document.getElementById("message");
+      const welcomeText = document.getElementById("welcome-text");
+      const logoutButton = document.getElementById("logout");
+
+      loginForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        if (!username || !password) {
+          message.textContent = "Username dan password wajib diisi.";
+          return;
+        }
+
+        message.textContent = "";
+        welcomeText.textContent = `Selamat datang, ${username}!`;
+        loginView.classList.add("hidden");
+        homeView.classList.remove("hidden");
+      });
+
+      logoutButton.addEventListener("click", () => {
+        usernameInput.value = "";
+        passwordInput.value = "";
+        welcomeText.textContent = "";
+        message.textContent = "";
+        homeView.classList.add("hidden");
+        loginView.classList.remove("hidden");
+      });
+    </script>
+  </body>
+</html>
